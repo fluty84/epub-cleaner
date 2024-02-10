@@ -11,12 +11,10 @@ import (
 )
 
 func main() {
-	// Prompt for EPUB path
 	fmt.Print("Enter the path to the EPUB file: ")
 
 	epubPath := getUserInput()
 
-	// Prompt for string to delete
 	fmt.Print("Enter the string to delete: ")
 	deleteString := getUserInput()
 
@@ -36,7 +34,6 @@ func getUserInput() string {
 }
 
 func removeStringFromEPUB(epubPath, deleteString string) error {
-	// Open the original EPUB file
 	originalEPUB, err := zip.OpenReader(epubPath)
 	if err != nil {
 		return err
@@ -51,7 +48,6 @@ func removeStringFromEPUB(epubPath, deleteString string) error {
 	}
 	defer newEPUB.Close()
 
-	// Create a zip writer for the new EPUB file
 	zipWriter := zip.NewWriter(newEPUB)
 
 	numberOfCoincidences := 0
@@ -77,7 +73,6 @@ func removeStringFromEPUB(epubPath, deleteString string) error {
 		}
 	}
 
-	// Close the zip writer
 	err = zipWriter.Close()
 	if err != nil {
 		return err
