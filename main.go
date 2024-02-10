@@ -54,7 +54,7 @@ func removeStringFromEPUB(epubPath, deleteString string) error {
 	// Create a zip writer for the new EPUB file
 	zipWriter := zip.NewWriter(newEPUB)
 
-
+	numberOfCoincidences := 0
 	// Copy each file from the original EPUB to the new EPUB, removing the specified string
 	for _, file := range originalEPUB.File {
 		// Open the file from the original EPUB
@@ -69,8 +69,7 @@ func removeStringFromEPUB(epubPath, deleteString string) error {
 		if err != nil {
 			return err
 		}
-		numberOfCoincidences := strings.Count(fileContents(originalFile), deleteString)
-		log.Info(fmt.Sprintf("The string '%s' was found %d times in the file %s", deleteString, numberOfCoincidences, file.Name))
+		numberOfCoincidences += strings.Count(fileContents(originalFile), deleteString)
 		// Copy the contents of the original file to the new file, removing the specified string
 		_, err = io.Copy(newFile, strings.NewReader(strings.ReplaceAll(fileContents(originalFile), deleteString, "")))
 		if err != nil {
@@ -83,6 +82,8 @@ func removeStringFromEPUB(epubPath, deleteString string) error {
 	if err != nil {
 		return err
 	}
+
+	log.Info(fmt.Sprintf("The string '%s' was found %d times", deleteString, numberOfCoincidences))
 
 	return nil
 }
