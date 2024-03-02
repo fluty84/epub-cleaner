@@ -1,7 +1,7 @@
-### EPUB-CLEANER
+# EPUB-CLEANER
 A simple GO tool to delete a specified string from an epub file
 
-##USE 
+## USE 
 You need to have GO [installed](https://go.dev/doc/install). 
 
 Download the repo and inside the folder run:
